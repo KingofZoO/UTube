@@ -1,5 +1,5 @@
 ﻿@page "/"
-@inject MediaService mediaService
+@inherits MediaService
 <link href="css/site.css" rel="stylesheet"/>
 
 <div id="mediaMain">
@@ -11,12 +11,12 @@
     <div id="tableDiv">
         <table class="hoverTable">
             <tbody>
-                @foreach (string media in mediaList) {
+                @foreach (string media in GetMediaList()) {
                     <tr @onclick="@(()=>SelectMedia(media))">
                         <td>
                             <video width="120" 
                                    height="80" 
-                                   src="@mediaService.GetUrlByName(media)" 
+                                   src="@GetUrlByName(media)" 
                                    onmouseover="this.play()" 
                                    onmouseout="this.pause(); this.currentTime=0"></video>
                         </td>
@@ -29,14 +29,3 @@
         </table>
     </div>
 </div>
-
-@code {
-    private string[] mediaList;
-    private string mediaUrl;
-
-    protected override void OnInitialized() {
-        mediaList = mediaService.GetMediaList();
-    }
-
-    private void SelectMedia(string name) => mediaUrl = mediaService.GetUrlByName(name);
-}

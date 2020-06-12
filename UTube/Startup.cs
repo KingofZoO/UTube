@@ -28,8 +28,6 @@ namespace UTube {
 
             services.AddRazorPages();
             services.AddServerSideBlazor();
-
-            services.AddSingleton<MediaService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
