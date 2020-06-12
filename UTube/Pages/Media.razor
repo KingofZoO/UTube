@@ -1,0 +1,42 @@
+﻿@page "/"
+@inject MediaService mediaService
+<link href="css/site.css" rel="stylesheet"/>
+
+<div id="mediaMain">
+    <div id="videoDiv">
+        <video controls="controls" 
+               src="@mediaUrl" 
+               autoplay="autoplay"></video>
+    </div>
+    <div id="tableDiv">
+        <table class="hoverTable">
+            <tbody>
+                @foreach (string media in mediaList) {
+                    <tr @onclick="@(()=>SelectMedia(media))">
+                        <td>
+                            <video width="120" 
+                                   height="80" 
+                                   src="@mediaService.GetUrlByName(media)" 
+                                   onmouseover="this.play()" 
+                                   onmouseout="this.pause(); this.currentTime=0"></video>
+                        </td>
+                        <td align="center">
+                            @media
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@code {
+    private string[] mediaList;
+    private string mediaUrl;
+
+    protected override void OnInitialized() {
+        mediaList = mediaService.GetMediaList();
+    }
+
+    private void SelectMedia(string name) => mediaUrl = mediaService.GetUrlByName(name);
+}
